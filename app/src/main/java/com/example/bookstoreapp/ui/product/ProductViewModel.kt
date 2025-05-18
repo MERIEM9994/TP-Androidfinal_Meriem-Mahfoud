@@ -2,9 +2,11 @@ package com.example.bookstoreapp.ui.product
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bookstoreapp.data.Entities.Book
 import com.example.bookstoreapp.data.Repository.BookRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProductViewModel(
@@ -14,42 +16,49 @@ class ProductViewModel(
     private val _state = MutableStateFlow(ProductViewState())
     val state: StateFlow<ProductViewState> = _state
 
+    fun getBookById(bookId: String): Book? = _state.value.books.find { it.id == bookId }
+
     fun handleIntent(intent: ProductIntent) {
         when (intent) {
             ProductIntent.LoadBooks -> loadBooks()
-            is ProductIntent.ShowBookDetails -> showDetails(intent.bookId)
-            ProductIntent.NavigateBack -> navigateBack()
+            is ProductIntent.ShowBookDetails -> updateSelectedBook(intent.bookId)
+            ProductIntent.NavigateBack -> clearSelectedBook()
         }
     }
 
     private fun loadBooks() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
+            _state.update { it.copy(isLoading = true, error = null) }
+
             try {
                 val books = repository.getBooks()
-                _state.value = _state.value.copy(
-                    isLoading = false,
-                    books = books,
-                    error = null
-                )
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        books = books,
+                        selectedBook = null
+                    )
+                }
             } catch (e: Exception) {
-                _state.value = _state.value.copy(
-                    isLoading = false,
-                    error = e.message ?: "Error loading books"
-                )
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        error = e.message ?: "Erreur de chargement"
+                    )
+                }
             }
         }
     }
 
-    private fun showDetails(bookId: String) {
-        _state.value.run {
-            val book = books.find { it.id == bookId }
-            _state.value = this.copy(selectedBook = book)
+    private fun updateSelectedBook(bookId: String) {
+        _state.update { currentState ->
+            currentState.copy(
+                selectedBook = currentState.books.find { it.id == bookId }
+            )
         }
     }
 
-    private fun navigateBack() {
-        _state.value = _state.value.copy(selectedBook = null)
+    private fun clearSelectedBook() {
+        _state.update { it.copy(selectedBook = null) }
     }
 }
-

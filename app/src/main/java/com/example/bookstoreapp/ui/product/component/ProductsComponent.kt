@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.bookstoreapp.data.Entities.Book
 
+
 @Composable
 fun ProductsList(
     books: List<Book>,
@@ -20,9 +21,9 @@ fun ProductsList(
             .padding(8.dp)
     ) {
         items(books) { book ->
-            BookItem(
+            ProductsItemComponent(
                 book = book,
-                onClick = { onBookClick(book.id) }
+                onDetailClick = { onBookClick(book.id) }
             )
         }
     }

@@ -3,45 +3,26 @@ package com.example.bookstoreapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.bookstoreapp.ui.theme.BookStoreAppTheme
+import androidx.activity.viewModels
+import androidx.compose.material3.Surface
+import com.example.bookstoreapp.nav.AppNavigation
+import com.example.bookstoreapp.ui.products.ProductViewModel
+import com.example.bookstoreapp.ui.theme.BookstoreAppTheme
 
 class MainActivity : ComponentActivity() {
+
+    // ViewModel pour gérer la logique produit (MVI)
+    private val viewModel: ProductViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            BookStoreAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            BookstoreAppTheme {
+                Surface {
+                    // Lance la navigation principale avec le ViewModel
+                    AppNavigation(viewModel = viewModel)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BookStoreAppTheme {
-        Greeting("Android")
     }
 }

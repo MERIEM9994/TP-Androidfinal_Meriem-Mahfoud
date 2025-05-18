@@ -1,4 +1,4 @@
-package com.example.bookstoreapp.ui.products.component
+package com.example.bookstoreapp.ui.product.component
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,14 +10,20 @@ import androidx.compose.ui.unit.dp
 import com.example.bookstoreapp.data.Entities.Book
 
 @Composable
-fun BooksList(books: List<Book>, onNavigateToDetails: (String) -> Unit) {
+fun ProductsList(
+    books: List<Book>,
+    onBookClick: (String) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp)
     ) {
         items(books) { book ->
-            BookItem(book, onNavigateToDetails)
+            BookItem(
+                book = book,
+                onClick = { onBookClick(book.id) }
+            )
         }
     }
 }

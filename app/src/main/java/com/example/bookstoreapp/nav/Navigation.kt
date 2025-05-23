@@ -17,15 +17,12 @@ object Routes {
 
 @Composable
 fun AppNavigation(viewModel: ProductViewModel) {
-    // 1. Controller de navigation
     val navController = rememberNavController()
 
-    // 2. Configuration des routes
     NavHost(
         navController = navController,
         startDestination = Routes.HOME
     ) {
-        // Écran principal
         composable(Routes.HOME) {
             HomeScreen(
                 viewModel = viewModel,
@@ -35,7 +32,6 @@ fun AppNavigation(viewModel: ProductViewModel) {
             )
         }
 
-        // Écran de détails avec argument
         composable(
             route = "${Routes.BOOK_DETAILS}/{bookId}",
             arguments = listOf(

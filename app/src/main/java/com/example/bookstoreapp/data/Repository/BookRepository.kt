@@ -1,19 +1,21 @@
 package com.example.bookstoreapp.data.Repository
+
 import com.example.bookstoreapp.data.Entities.Book
 import com.example.bookstoreapp.data.Entities.BookType
 import com.example.bookstoreapp.R
 import kotlinx.coroutines.delay
 
-
 class BookRepository {
     suspend fun getBooks(): List<Book> {
-        delay(1000) // Simule un appel réseau ou base de données
+        delay(1000)
         return listOf(
-            Book("1", "Les 7 habitudes de ceux qui réussissent tout ce qu’ils entreprennent", "Stephen R. Covey", 5, BookType.DEVELOPPEMENT_PERSONNEL, R.drawable.book1),
-            Book("2", "L’Alchimiste", "Paulo Coelho", 2, BookType.ROMAN, R.drawable.book2),
-            Book("3", "Père riche, père pauvre", "Robert Kiyosaki", 4, BookType.DEVELOPPEMENT_PERSONNEL, R.drawable.book3),
-            Book("4", "Le Petit Prince", "Antoine de Saint-Exupéry", 3, BookType.ROMAN, R.drawable.book4),
-            Book("5", "Deep Work", "Cal Newport", 6, BookType.DEVELOPPEMENT_PERSONNEL, R.drawable.book5)
+            Book("1", "Les Misérables", "Victor Hugo", 8, BookType.ROMAN, R.drawable.miserables),
+            Book("2", "Notre-Dame de Paris", "Victor Hugo", 9, BookType.ROMAN, R.drawable.notredame),
+            Book("3", "Les Contemplations", "Victor Hugo", 10, BookType.POESIE, R.drawable.contemplations),
+            Book("4", "Le Dernier Jour d'un Condamné", "Victor Hugo", 11, BookType.ROMAN, R.drawable.condamne),
+            Book("5", "Les Travailleurs de la Mer", "Victor Hugo", 19, BookType.ROMAN, R.drawable.travailleurs),
+            Book("6", "Han d'Islande", "Victor Hugo", 28, BookType.ROMAN, R.drawable.hanislande)
         )
     }
 }
+

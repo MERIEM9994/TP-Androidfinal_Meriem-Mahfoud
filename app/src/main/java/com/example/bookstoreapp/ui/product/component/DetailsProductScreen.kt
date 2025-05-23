@@ -1,24 +1,12 @@
 package com.example.bookstoreapp.ui.product.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +33,11 @@ fun DetailsProductScreen(
                             contentDescription = "Retour"
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
         }
     ) { paddingValues ->
@@ -54,56 +46,91 @@ fun DetailsProductScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Image du livre
-            Image(
-                painter = painterResource(id = book.imageResId),
-                contentDescription = "Couverture de ${book.title}",
-                modifier = Modifier
-                    .height(250.dp)
-                    .fillMaxWidth(),
-                contentScale = ContentScale.Fit
-            )
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                elevation = CardDefaults.cardElevation(8.dp),
+                shape = MaterialTheme.shapes.medium
+            ) {
+                Image(
+                    painter = painterResource(id = book.imageResId),
+                    contentDescription = "Couverture de ${book.title}",
+                    modifier = Modifier
+                        .height(300.dp)
+                        .fillMaxWidth(),
+                    contentScale = ContentScale.FillWidth
+                )
+            }
 
-            // Titre
             Text(
                 text = book.title,
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
             )
 
-            // Auteur
-            Text(
-                text = "Auteur : ${book.author}",
-                style = MaterialTheme.typography.titleLarge
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = "Auteur :",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = book.author,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
 
-            // Type
-            Text(
-                text = "Genre : ${book.type.name}",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = "Genre :",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = book.type.name.replace("_", " "),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
 
-            // Quantité
-            Text(
-                text = "Exemplaires disponibles : ${book.quantity}",
-                style = MaterialTheme.typography.bodyLarge,
-                color = if (book.quantity > 0) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    MaterialTheme.colorScheme.error
-                }
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = "Disponibilité :",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = if (book.quantity > 0) "${book.quantity} exemplaires" else "Rupture de stock",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = if (book.quantity > 0) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.error
+                    }
+                )
+            }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Bouton Retour
             Button(
                 onClick = onBackClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp)
+                    .padding(vertical = 16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
             ) {
                 Text("Retour à la liste")
             }

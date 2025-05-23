@@ -6,11 +6,16 @@ data class Book(
     val author: String,
     val quantity: Int,
     val type: BookType,
-    val imageResId: Int
+    val imageResId: Int,
+    val publishedYear: Int? = null // Nouveau champ pour l'année de publication
 )
 
 enum class BookType {
-    DEVELOPPEMENT_PERSONNEL,
-    ROMAN
+    ROMAN,
+    POESIE,
+    THEATRE,
+    ESSAI,
+    HISTOIRE
 }
+
 

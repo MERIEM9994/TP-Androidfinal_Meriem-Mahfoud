@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.bookstoreapp.data.Entities.Book
 
-
 @Composable
 fun ProductsList(
     books: List<Book>,
@@ -18,7 +17,7 @@ fun ProductsList(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         items(books) { book ->
             ProductsItemComponent(
